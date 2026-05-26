@@ -13,24 +13,22 @@ public class Parsers {
     }
 
     public static NumberParser longs() {
-        return integers();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static NumberParser integers() {
-        NumberFormat format = NumberFormat.getInstance();
-        format.setParseIntegerOnly(true);
-        return new NumberParser(format);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static BigDecimalParser bigDecimals(Locale locale) {
-        return new BigDecimalParser(NumberFormat.getInstance(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static NumberParser numbers(Locale locale) {
-        return new NumberParser(NumberFormat.getInstance(locale));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static BooleanParser booleans() {
-        return new BooleanParser();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

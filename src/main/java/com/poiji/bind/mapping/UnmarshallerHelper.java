@@ -12,22 +12,22 @@ import org.apache.poi.ss.usermodel.Sheet;
 public final class UnmarshallerHelper {
 
     public static Unmarshaller hssfInstance(PoijiFile<?> poijiFile, PoijiOptions options) {
-        return new HSSFUnmarshallerFile(poijiFile, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Unmarshaller hssfInstance(PoijiInputStream<?> poijiInputStream, PoijiOptions options) {
-        return new HSSFUnmarshallerStream(poijiInputStream, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Unmarshaller xssfInstance(PoijiFile<?> poijiFile, PoijiOptions options) {
-        return new XSSFUnmarshallerFile(poijiFile, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Unmarshaller xssfInstance(PoijiInputStream<?> poijiInputStream, PoijiOptions options) {
-        return new XSSFUnmarshallerStream(poijiInputStream, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Unmarshaller sheetInstance(Sheet sheet, PoijiOptions options) {
-        return new SheetUnmarshaller(sheet, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

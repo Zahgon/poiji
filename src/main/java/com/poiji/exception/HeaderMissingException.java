@@ -10,20 +10,20 @@ import java.util.Set;
 public class HeaderMissingException extends PoijiException {
 
     private final Set<Integer> missingExcelCellHeaders;
+
     private final Set<String> missingExcelCellNameHeaders;
 
-    public HeaderMissingException(String message, Set<Integer> missingExcelCellHeaders,
-                                  Set<String> missingExcelCellNameHeaders) {
+    public HeaderMissingException(String message, Set<Integer> missingExcelCellHeaders, Set<String> missingExcelCellNameHeaders) {
         super(message);
         this.missingExcelCellHeaders = Set.copyOf(missingExcelCellHeaders);
         this.missingExcelCellNameHeaders = Set.copyOf(missingExcelCellNameHeaders);
     }
 
     public Set<Integer> getMissingExcelCellHeaders() {
-        return missingExcelCellHeaders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Set<String> getMissingExcelCellNameHeaders() {
-        return missingExcelCellNameHeaders;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

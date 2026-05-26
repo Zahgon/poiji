@@ -12,7 +12,7 @@ public class NumberParser implements Parser<Number> {
     }
 
     public Number parse(String value) {
-        return parseNumber(value, numberFormat);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Number parseNumber(String value, NumberFormat instance) {
@@ -30,5 +30,4 @@ public class NumberParser implements Parser<Number> {
     private static boolean isParsingError(ParsePosition pos, String value) {
         return pos.getErrorIndex() != -1 || pos.getIndex() != value.length();
     }
-
 }

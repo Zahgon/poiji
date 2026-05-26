@@ -9,11 +9,9 @@ import com.poiji.config.DefaultFormatting;
 import com.poiji.config.Formatting;
 import com.poiji.exception.PoijiException;
 import org.apache.poi.util.LocaleUtil;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
-
 import static com.poiji.util.PoijiConstants.DEFAULT_DATE_FORMATTER;
 import static com.poiji.util.PoijiConstants.DEFAULT_DATE_PATTERN;
 import static com.poiji.util.PoijiConstants.DEFAULT_DATE_TIME_FORMATTER;
@@ -25,38 +23,67 @@ import static com.poiji.util.PoijiConstants.DEFAULT_TIME_FORMATTER;
 public final class PoijiOptions {
 
     private int skip;
+
     private int limit;
+
     private int sheetIndex;
+
     private String password;
+
     private String dateRegex;
+
     private String timeRegex;
+
     private String dateTimeRegex;
+
     private String datePattern;
+
     private boolean dateLenient;
+
     private boolean trimCellValue;
+
     private boolean ignoreHiddenSheets;
+
     private boolean preferNullOverDefault;
+
     private DateTimeFormatter dateFormatter;
+
     private DateTimeFormatter timeFormatter;
+
     private DateTimeFormatter dateTimeFormatter;
+
     private Casting casting;
+
     private int headerStart;
+
     private int headerCount;
+
     private String sheetName;
+
     private boolean caseInsensitive;
+
     private boolean ignoreWhitespaces;
+
     private PoijiLogCellFormat poijiLogCellFormat;
+
     private PoijiNumberFormat numberFormat;
+
     private boolean disableXLSXNumberCellFormat;
+
     private String listDelimiter;
+
     private Formatting formatting;
+
     private Locale locale;
+
     private boolean rawData;
+
     private boolean ignoreFileExtension;
+
     private boolean processEmptyCell;
 
     public PoijiNumberFormat getPoijiNumberFormat() {
-        return numberFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setPoijiNumberFormat(PoijiNumberFormat numberFormat) {
@@ -65,7 +92,7 @@ public final class PoijiOptions {
     }
 
     public PoijiLogCellFormat getPoijiCellFormat() {
-        return poijiLogCellFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setPoijiLogCellFormat(PoijiLogCellFormat poijiLogCellFormat) {
@@ -83,12 +110,11 @@ public final class PoijiOptions {
     }
 
     public int getLimit() {
-        return limit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public PoijiOptions setLimit(int limit) {
-        this.limit = limit;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setDatePattern(String datePattern) {
@@ -117,7 +143,7 @@ public final class PoijiOptions {
     }
 
     public String getPassword() {
-        return password;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setPassword(String password) {
@@ -126,23 +152,23 @@ public final class PoijiOptions {
     }
 
     public String datePattern() {
-        return datePattern;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public DateTimeFormatter dateFormatter() {
-        return dateFormatter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public DateTimeFormatter timeFormatter() {
-        return timeFormatter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public DateTimeFormatter dateTimeFormatter() {
-        return dateTimeFormatter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean preferNullOverDefault() {
-        return preferNullOverDefault;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -151,11 +177,11 @@ public final class PoijiOptions {
      * @return n rows skipped
      */
     public int skip() {
-        return skip;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean ignoreHiddenSheets() {
-        return ignoreHiddenSheets;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setIgnoreHiddenSheets(boolean ignoreHiddenSheets) {
@@ -164,21 +190,19 @@ public final class PoijiOptions {
     }
 
     public boolean trimCellValue() {
-        return trimCellValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public PoijiOptions setTrimCellValue(boolean trimCellValue) {
-        this.trimCellValue = trimCellValue;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Casting getCasting() {
-        return casting;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public PoijiOptions setCasting(Casting casting) {
-        this.casting = casting;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setSheetIndex(int sheetIndex) {
@@ -187,11 +211,11 @@ public final class PoijiOptions {
     }
 
     public int sheetIndex() {
-        return sheetIndex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getDateRegex() {
-        return dateRegex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setDateRegex(String dateRegex) {
@@ -200,7 +224,7 @@ public final class PoijiOptions {
     }
 
     public String getTimeRegex() {
-        return timeRegex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setTimeRegex(String timeRegex) {
@@ -209,7 +233,7 @@ public final class PoijiOptions {
     }
 
     public String getDateTimeRegex() {
-        return dateTimeRegex;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setDateTimeRegex(String dateTimeRegex) {
@@ -218,7 +242,7 @@ public final class PoijiOptions {
     }
 
     public boolean getDateLenient() {
-        return dateLenient;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setDateLenient(boolean dateLenient) {
@@ -227,11 +251,11 @@ public final class PoijiOptions {
     }
 
     public int getHeaderStart() {
-        return headerStart;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getHeaderCount() {
-        return headerCount;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setHeaderStart(int headerStart) {
@@ -250,11 +274,11 @@ public final class PoijiOptions {
     }
 
     public String getSheetName() {
-        return sheetName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean getCaseInsensitive() {
-        return caseInsensitive;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setCaseInsensitive(final boolean caseInsensitive) {
@@ -263,7 +287,7 @@ public final class PoijiOptions {
     }
 
     public boolean getIgnoreWhitespaces() {
-        return ignoreWhitespaces;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setIgnoreWhitespaces(final boolean ignoreWhitespaces) {
@@ -277,11 +301,11 @@ public final class PoijiOptions {
     }
 
     public boolean isDisableXLSXNumberCellFormat() {
-        return disableXLSXNumberCellFormat;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getListDelimiter() {
-        return listDelimiter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setListDelimiter(String listDelimiter) {
@@ -290,7 +314,7 @@ public final class PoijiOptions {
     }
 
     public Formatting getFormatting() {
-        return formatting;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setFormatting(Formatting formatting) {
@@ -299,7 +323,7 @@ public final class PoijiOptions {
     }
 
     public Locale getLocale() {
-        return this.locale;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setLocale(Locale locale) {
@@ -311,7 +335,7 @@ public final class PoijiOptions {
     }
 
     public boolean isRawData() {
-        return rawData;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setRawData(boolean rawData) {
@@ -323,7 +347,7 @@ public final class PoijiOptions {
     }
 
     public boolean ignoreFileExtension() {
-        return ignoreFileExtension;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setIgnoreFileExtension(boolean ignoreFileExtension) {
@@ -332,7 +356,7 @@ public final class PoijiOptions {
     }
 
     public boolean isProcessEmptyCell() {
-        return processEmptyCell;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private PoijiOptions setProcessEmptyCell(boolean processEmptyCell) {
@@ -343,34 +367,63 @@ public final class PoijiOptions {
     public static class PoijiOptionsBuilder {
 
         private int sheetIndex;
+
         private String password;
+
         private String dateRegex;
+
         private String timeRegex;
+
         private String dateTimeRegex;
+
         private boolean dateLenient;
+
         private boolean trimCellValue;
+
         private boolean ignoreHiddenSheets;
+
         private boolean preferNullOverDefault;
+
         private String datePattern = DEFAULT_DATE_PATTERN;
+
         private DateTimeFormatter dateFormatter = DEFAULT_DATE_FORMATTER;
+
         private DateTimeFormatter timeFormatter = DEFAULT_TIME_FORMATTER;
+
         private DateTimeFormatter dateTimeFormatter = DEFAULT_DATE_TIME_FORMATTER;
+
         private Casting casting = new DefaultCasting();
+
         private Formatting formatting = new DefaultFormatting();
+
         private PoijiLogCellFormat cellFormat;
+
         private PoijiNumberFormat numberFormat = StylesFormatHelper.loadDefaultStyles();
+
         private int headerStart = 0;
+
         private int headerCount = 1;
+
         private int skip = 1;
+
         private int limit = 0;
+
         private String sheetName;
+
         private boolean caseInsensitive;
+
         private boolean ignoreWhitespaces;
+
         private boolean disabledXLSXNumberCellFormat;
+
         private String listDelimiter = "\\s*,\\s*";
+
         private Locale locale = Locale.US;
+
         private boolean rawData;
+
         private boolean ignoreFileExtension;
+
         private boolean processEmptyCell;
 
         private PoijiOptionsBuilder() {
@@ -387,14 +440,11 @@ public final class PoijiOptions {
          * @return builder itself
          */
         public static PoijiOptionsBuilder settings(int skip) {
-            if (skip <= 0) {
-                throw new PoijiException("Poiji already skips the header. Skip index must be greater than 1");
-            }
-            return new PoijiOptionsBuilder(skip + 1);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public static PoijiOptionsBuilder settings() {
-            return new PoijiOptionsBuilder();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -405,8 +455,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder dateFormatter(DateTimeFormatter dateFormatter) {
-            this.dateFormatter = dateFormatter;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -418,8 +467,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder timeFormatter(DateTimeFormatter timeFormatter) {
-            this.timeFormatter = timeFormatter;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -431,8 +479,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder dateTimeFormatter(DateTimeFormatter dateTimeFormatter) {
-            this.dateTimeFormatter = dateTimeFormatter;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -443,8 +490,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder datePattern(String datePattern) {
-            this.datePattern = datePattern;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -455,8 +501,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder preferNullOverDefault(boolean preferNullOverDefault) {
-            this.preferNullOverDefault = preferNullOverDefault;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -470,43 +515,11 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder setLocale(Locale locale) {
-            this.locale = locale;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public PoijiOptions build() {
-            return new PoijiOptions()
-                    .setSkip(skip + headerStart + headerCount - 1)
-                    .setPassword(password)
-                    .setPreferNullOverDefault(preferNullOverDefault)
-                    .setDatePattern(datePattern)
-                    .setDateFormatter(dateFormatter)
-                    .setTimeFormatter(timeFormatter)
-                    .setDateTimeFormatter(dateTimeFormatter)
-                    .setSheetIndex(sheetIndex)
-                    .setSheetName(sheetName)
-                    .setIgnoreHiddenSheets(ignoreHiddenSheets)
-                    .setTrimCellValue(trimCellValue)
-                    .setDateRegex(dateRegex)
-                    .setTimeRegex(timeRegex)
-                    .setDateTimeRegex(dateTimeRegex)
-                    .setDateLenient(dateLenient)
-                    .setHeaderStart(headerStart)
-                    .setHeaderCount(headerCount)
-                    .setCasting(casting)
-                    .setLimit(limit)
-                    .setPoijiLogCellFormat(cellFormat)
-                    .setPoijiNumberFormat(numberFormat)
-                    .setCaseInsensitive(caseInsensitive)
-                    .setIgnoreWhitespaces(ignoreWhitespaces)
-                    .disableXLSXNumberCellFormat(disabledXLSXNumberCellFormat)
-                    .setListDelimiter(listDelimiter)
-                    .setFormatting(formatting)
-                    .setLocale(locale)
-                    .setRawData(rawData)
-                    .setIgnoreFileExtension(ignoreFileExtension)
-                    .setProcessEmptyCell(processEmptyCell);
-
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -516,11 +529,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder sheetIndex(int sheetIndex) {
-            if (sheetIndex < 0) {
-                throw new PoijiException("Sheet index must be greater than or equal to 0");
-            }
-            this.sheetIndex = sheetIndex;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -530,8 +539,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder sheetName(String sheetName) {
-            this.sheetName = sheetName;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -541,11 +549,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder skip(int skip) {
-            if (skip <= 0) {
-                throw new PoijiException("Poiji already skips the header. Skip index must be greater than 1");
-            }
-            this.skip = skip + 1;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -555,13 +559,8 @@ public final class PoijiOptions {
          * @param limit number
          * @return this
          */
-
         public PoijiOptionsBuilder limit(int limit) {
-            if (limit < 1) {
-                throw new PoijiException("limit must be greater than 0");
-            }
-            this.limit = limit;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -571,8 +570,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder password(String password) {
-            this.password = password;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -583,8 +581,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder ignoreHiddenSheets(boolean ignoreHiddenSheets) {
-            this.ignoreHiddenSheets = ignoreHiddenSheets;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -594,8 +591,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder trimCellValue(boolean trimCellValue) {
-            this.trimCellValue = trimCellValue;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -606,8 +602,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder dateRegex(String dateRegex) {
-            this.dateRegex = dateRegex;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -618,8 +613,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder timeRegex(String timeRegex) {
-            this.timeRegex = timeRegex;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -630,8 +624,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder dateTimeRegex(String dateTimeRegex) {
-            this.dateTimeRegex = dateTimeRegex;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -643,8 +636,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder dateLenient(boolean dateLenient) {
-            this.dateLenient = dateLenient;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -654,10 +646,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder withCasting(Casting casting) {
-            Objects.requireNonNull(casting);
-
-            this.casting = casting;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -670,11 +659,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder headerStart(int headerStart) {
-            if (headerStart < 0) {
-                throw new PoijiException("Header index must be greater than 0");
-            }
-            this.headerStart = headerStart;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -688,11 +673,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder headerCount(int headerCount) {
-            if (headerCount < 0) {
-                throw new PoijiException("Number of header row must be greater than 0");
-            }
-            this.headerCount = headerCount;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -704,8 +685,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder caseInsensitive(final boolean caseInsensitive) {
-            this.caseInsensitive = caseInsensitive;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -717,8 +697,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder ignoreWhitespaces(final boolean ignoreWhitespaces) {
-            this.ignoreWhitespaces = ignoreWhitespaces;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -730,8 +709,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder poijiLogCellFormat(final PoijiLogCellFormat cellFormat) {
-            this.cellFormat = cellFormat;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -741,8 +719,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder poijiNumberFormat(final PoijiNumberFormat numberFormat) {
-            this.numberFormat = numberFormat;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -752,8 +729,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder disableXLSXNumberCellFormat() {
-            this.disabledXLSXNumberCellFormat = true;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -763,8 +739,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder addListDelimiter(String delimiter) {
-            this.listDelimiter = String.format("\\s*%s\\s*", delimiter);
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -774,10 +749,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder withFormatting(Formatting formatting) {
-            Objects.requireNonNull(formatting);
-
-            this.formatting = formatting;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -788,8 +760,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder rawData(boolean status) {
-            this.rawData = status;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -805,8 +776,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder ignoreFileExtension(boolean ignoreFileExtension) {
-            this.ignoreFileExtension = ignoreFileExtension;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -818,9 +788,7 @@ public final class PoijiOptions {
          * @return this
          */
         public PoijiOptionsBuilder processEmptyCell(boolean processEmptyCell) {
-            this.processEmptyCell = processEmptyCell;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

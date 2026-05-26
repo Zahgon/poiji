@@ -199,3 +199,7 @@ poiji.iml
 .~lock.*
 
 *.json
+.aider*
+logs/
+.commit0_scripts/
+.github/workflows/

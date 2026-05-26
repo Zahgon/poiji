@@ -1,7 +1,6 @@
 package com.poiji.bind.mapping;
 
 import org.apache.poi.xssf.model.StylesTable;
-
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -13,17 +12,14 @@ public final class PoijiNumberFormat {
     private final SortedMap<Short, String> numberFormats = new TreeMap<>();
 
     public void putNumberFormat(short index, String fmt) {
-        numberFormats.put(index, fmt);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getNumberFormatAt(short fmtId) {
-        return numberFormats.get(fmtId);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void overrideExcelNumberFormats(final StylesTable styles) {
-        for (Short fmtId : numberFormats.keySet()) {
-            String format = numberFormats.get(fmtId);
-            styles.putNumberFormat(fmtId, format);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

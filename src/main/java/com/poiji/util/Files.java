@@ -8,17 +8,13 @@ public final class Files {
     private static final Files instance = new Files();
 
     public static Files getInstance() {
-        return instance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Files() {
     }
 
     public String getExtension(String fileName) {
-        int i = fileName.lastIndexOf('.');
-        if (i >= 0) {
-            return fileName.substring(i);
-        }
-        return "";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

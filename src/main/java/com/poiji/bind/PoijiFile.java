@@ -19,6 +19,6 @@ public final class PoijiFile<T extends File> {
      * @return T
      */
     public T file() {
-        return t;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

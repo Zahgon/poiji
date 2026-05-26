@@ -29,7 +29,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.util.StringUtil;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +41,6 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import static java.lang.String.valueOf;
 
 /**
@@ -53,13 +51,21 @@ import static java.lang.String.valueOf;
 abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
 
     private final DataFormatter dataFormatter;
+
     protected final PoijiOptions options;
+
     private final Casting casting;
+
     private final Formatting formatting;
+
     private final Map<String, Integer> titleToIndex;
+
     private final Map<Integer, String> indexToTitle;
+
     private final int limit;
+
     private int internalCount;
+
     BaseFormulaEvaluator baseFormulaEvaluator;
 
     HSSFUnmarshaller(PoijiOptions options) {
@@ -74,42 +80,11 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
 
     @Override
     public <T> void unmarshal(Class<T> type, Consumer<? super T> consumer) {
-        HSSFWorkbook workbook = (HSSFWorkbook) workbook();
-        Optional<String> maybeSheetName = this.getSheetName(type, options);
-
-        baseFormulaEvaluator = HSSFFormulaEvaluator.create(workbook, null, null);
-        Sheet sheet = this.getSheetToProcess(workbook, options, maybeSheetName.orElse(null));
-
-        processRowsToObjects(sheet, type, consumer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     <T> void processRowsToObjects(Sheet sheet, Class<T> type, Consumer<? super T> consumer) {
-        int skip = options.skip();
-        int maxPhysicalNumberOfRows = sheet.getPhysicalNumberOfRows() + 1 - skip;
-        List<PoijiMultiRowException> errors = new ArrayList<>();
-        loadColumnTitles(sheet, maxPhysicalNumberOfRows);
-        AnnotationUtil.validateMandatoryNameColumns(options, formatting, type, titleToIndex, indexToTitle);
-
-        for (Row currentRow : sheet) {
-            if (!skip(currentRow, skip) && !isRowEmpty(currentRow)) {
-                internalCount += 1;
-
-                if (limit != 0 && internalCount > limit)
-                    return;
-                try {
-                    T instance = deserializeRowToInstance(currentRow, type);
-                    consumer.accept(instance);
-                } catch (PoijiMultiRowException poijiRowException) {
-                    errors.add(poijiRowException);
-                }
-            }
-        }
-        if (!errors.isEmpty()) {
-            List<PoijiRowSpecificException> allErrors = errors.stream()
-                    .flatMap((PoijiMultiRowException e) -> e.getErrors().stream())
-                    .collect(Collectors.toList());
-            throw new PoijiMultiRowException("Problem(s) occurred while reading data", allErrors);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Sheet getSheetToProcess(Workbook workbook, PoijiOptions options, String sheetName) {
@@ -148,7 +123,6 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
             if (headerCount == 0) {
                 return;
             }
-
             for (short i = 0; i < headerCount; i++) {
                 Row firstRow = sheet.getRow(row + i);
                 for (Cell cell : firstRow) {
@@ -162,8 +136,7 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
     }
 
     private String getTitleNameForMap(String cellContent, int columnIndex) {
-        if (indexToTitle.containsValue(cellContent)
-                || cellContent.isEmpty()) {
+        if (indexToTitle.containsValue(cellContent) || cellContent.isEmpty()) {
             return cellContent + "@" + columnIndex;
         } else {
             return cellContent;
@@ -171,12 +144,7 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
     }
 
     <T> T deserializeRowToInstance(Row currentRow, Class<T> type) {
-        if (ReflectUtil.isRecord(type)) {
-            return deserializeRowToRecordInstance(currentRow, type);
-        } else {
-            T instance = ReflectUtil.newInstanceOf(type);
-            return setFieldValuesFromRowIntoInstance(currentRow, type, instance);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private <T> T deserializeRowToRecordInstance(Row currentRow, Class<T> type) {
@@ -197,7 +165,6 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
         List<Integer> mappedColumnIndices = new ArrayList<>();
         List<Field> unknownCells = new ArrayList<>();
         List<PoijiRowSpecificException> errors = new ArrayList<>();
-
         for (Field field : type.getDeclaredFields()) {
             if (field.getAnnotation(ExcelRow.class) != null) {
                 final int rowNum = currentRow.getRowNum();
@@ -219,28 +186,16 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
         if (!errors.isEmpty()) {
             throw new PoijiMultiRowException("Problem(s) occurred while reading data", errors);
         }
-
         if (unknownCells.isEmpty()) {
             return;
         }
-
         if (!indexToTitle.isEmpty()) {
-            Map<String, String> excelUnknownCellsMap = StreamSupport
-                    .stream(Spliterators.spliteratorUnknownSize(currentRow.cellIterator(), Spliterator.ORDERED), false)
-                    .filter(cell -> !mappedColumnIndices.contains(cell.getColumnIndex()))
-                    .collect(Collectors.toMap(
-                            cell -> indexToTitle.get(cell.getColumnIndex()),
-                            Object::toString));
+            Map<String, String> excelUnknownCellsMap = StreamSupport.stream(Spliterators.spliteratorUnknownSize(currentRow.cellIterator(), Spliterator.ORDERED), false).filter(cell -> !mappedColumnIndices.contains(cell.getColumnIndex())).collect(Collectors.toMap(cell -> indexToTitle.get(cell.getColumnIndex()), Object::toString));
             unknownCells.forEach(field -> recordValues.put(field.getName(), excelUnknownCellsMap));
         }
     }
 
-    private void mapColumnsForRecord(
-            Row currentRow,
-            Map<String, Object> recordValues,
-            List<Integer> mappedColumnIndices,
-            List<PoijiRowSpecificException> errors,
-            Field field) {
+    private void mapColumnsForRecord(Row currentRow, Map<String, Object> recordValues, List<Integer> mappedColumnIndices, List<PoijiRowSpecificException> errors, Field field) {
         try {
             mappedColumnIndices.add(tailSetFieldValueForRecord(currentRow, recordValues, field));
         } catch (PoijiRowSpecificException poijiRowException) {
@@ -253,20 +208,17 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
         if (annotationDetail.getColumn() != null) {
             constructTypeValueForRecord(currentRow, recordValues, field, annotationDetail);
         }
-
         if (CollectionUtils.isNotEmpty(annotationDetail.getColumns())) {
             for (Integer column : annotationDetail.getColumns()) {
                 annotationDetail.setColumn(column);
                 constructTypeValueForRecord(currentRow, recordValues, field, annotationDetail);
             }
         }
-
         return annotationDetail.getColumn();
     }
 
     private <T> void constructTypeValueForRecord(Row currentRow, Map<String, Object> recordValues, Field field, FieldAnnotationDetail annotationDetail) {
         Cell cell = currentRow.getCell(annotationDetail.getColumn());
-
         if (cell != null) {
             if (annotationDetail.isDisabledCellFormat()) {
                 cell.setCellStyle(null);
@@ -277,19 +229,14 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
             } else {
                 value = dataFormatter.formatCellValue(cell, baseFormulaEvaluator);
             }
-            Object data = casting.castValue(field, value, currentRow.getRowNum(), annotationDetail.getColumn(),
-                    options);
-
+            Object data = casting.castValue(field, value, currentRow.getRowNum(), annotationDetail.getColumn(), options);
             constructTypeForRecord(recordValues, field, annotationDetail, data);
         } else if (options.isProcessEmptyCell()) {
             // Process empty cells by setting them to empty string
-            Object data = casting.castValue(field, "", currentRow.getRowNum(), annotationDetail.getColumn(),
-                    options);
-
+            Object data = casting.castValue(field, "", currentRow.getRowNum(), annotationDetail.getColumn(), options);
             constructTypeForRecord(recordValues, field, annotationDetail, data);
         } else if (annotationDetail.isMandatoryCell()) {
-            throw new PoijiRowSpecificException(annotationDetail.getColumnName(), field.getName(),
-                    currentRow.getRowNum());
+            throw new PoijiRowSpecificException(annotationDetail.getColumnName(), field.getName(), currentRow.getRowNum());
         }
     }
 
@@ -305,19 +252,13 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
     }
 
     static void fillMultiValueMap(Map<String, Object> recordValues, Field field, Object data, String titleColumn) {
-        MultiValuedMap<String, Object> fieldMap = (MultiValuedMap<String, Object>) recordValues.get(field.getName());
-        if (fieldMap == null) {
-            fieldMap = new org.apache.commons.collections4.multimap.ArrayListValuedHashMap<>();
-            recordValues.put(field.getName(), fieldMap);
-        }
-        fieldMap.put(titleColumn, data);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private <T> T tailSetFieldValue(Row currentRow, Class<? super T> type, T instance) {
         List<Integer> mappedColumnIndices = new ArrayList<>();
         List<Field> unknownCells = new ArrayList<>();
         List<PoijiRowSpecificException> errors = new ArrayList<>();
-
         for (Field field : type.getDeclaredFields()) {
             if (field.getModifiers() == 25) {
                 continue;
@@ -327,7 +268,6 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
                 final Object data = casting.castValue(field, valueOf(rowNum), rowNum, -1, options);
                 setFieldData(instance, field, data);
             } else if (field.getAnnotation(ExcelCellRange.class) != null) {
-
                 Class<?> fieldType = field.getType();
                 Object fieldInstance = ReflectUtil.newInstanceOf(fieldType);
                 for (Field fieldField : fieldType.getDeclaredFields()) {
@@ -343,38 +283,20 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
         if (!errors.isEmpty()) {
             throw new PoijiMultiRowException("Problem(s) occurred while reading data", errors);
         }
-
         if (unknownCells.isEmpty()) {
             return instance;
         }
-
         if (!indexToTitle.isEmpty()) {
-            Map<String, String> excelUnknownCellsMap = StreamSupport
-                    .stream(Spliterators.spliteratorUnknownSize(currentRow.cellIterator(), Spliterator.ORDERED), false)
-                    .filter(cell -> !mappedColumnIndices.contains(cell.getColumnIndex()))
-                    .collect(Collectors.toMap(
-                            cell -> indexToTitle.get(cell.getColumnIndex()),
-                            Object::toString));
+            Map<String, String> excelUnknownCellsMap = StreamSupport.stream(Spliterators.spliteratorUnknownSize(currentRow.cellIterator(), Spliterator.ORDERED), false).filter(cell -> !mappedColumnIndices.contains(cell.getColumnIndex())).collect(Collectors.toMap(cell -> indexToTitle.get(cell.getColumnIndex()), Object::toString));
             unknownCells.forEach(field -> setFieldData(instance, field, excelUnknownCellsMap));
         } else {
-            Map<String, String> excelUnknownCellsMap = StreamSupport
-                    .stream(Spliterators.spliteratorUnknownSize(currentRow.cellIterator(), Spliterator.ORDERED), false)
-                    .filter(cell -> !mappedColumnIndices.contains(cell.getColumnIndex()))
-                    .collect(Collectors.toMap(
-                            cell -> valueOf(cell.getColumnIndex()),
-                            Object::toString));
+            Map<String, String> excelUnknownCellsMap = StreamSupport.stream(Spliterators.spliteratorUnknownSize(currentRow.cellIterator(), Spliterator.ORDERED), false).filter(cell -> !mappedColumnIndices.contains(cell.getColumnIndex())).collect(Collectors.toMap(cell -> valueOf(cell.getColumnIndex()), Object::toString));
             unknownCells.forEach(field -> setFieldData(instance, field, excelUnknownCellsMap));
         }
-
         return instance;
     }
 
-    private <T> void mapColumns(
-            Row currentRow,
-            T instance,
-            List<Integer> mappedColumnIndices,
-            List<PoijiRowSpecificException> errors,
-            Field field) {
+    private <T> void mapColumns(Row currentRow, T instance, List<Integer> mappedColumnIndices, List<PoijiRowSpecificException> errors, Field field) {
         try {
             mappedColumnIndices.add(tailSetFieldValue(currentRow, instance, field));
         } catch (PoijiRowSpecificException poijiRowException) {
@@ -387,31 +309,26 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
         if (annotationDetail.getColumn() != null) {
             constructTypeValue(currentRow, instance, field, annotationDetail);
         }
-
         if (CollectionUtils.isNotEmpty(annotationDetail.getColumns())) {
             for (Integer column : annotationDetail.getColumns()) {
                 annotationDetail.setColumn(column);
                 constructTypeValue(currentRow, instance, field, annotationDetail);
             }
         }
-
         return annotationDetail.getColumn();
     }
 
     private FieldAnnotationDetail getFieldColumn(final Field field) {
         DisableCellFormatXLS disableCellFormat = field.getAnnotation(DisableCellFormatXLS.class);
         final FieldAnnotationDetail annotationDetail = new FieldAnnotationDetail();
-
         if (disableCellFormat != null) {
             annotationDetail.setDisabledCellFormat(disableCellFormat.value());
         }
-
         ExcelCell index = field.getAnnotation(ExcelCell.class);
         if (index != null) {
             annotationDetail.setColumn(index.value());
             annotationDetail.setMandatoryCell(index.mandatoryCell());
         }
-
         ExcelCellName excelCellName = field.getAnnotation(ExcelCellName.class);
         if (excelCellName != null) {
             annotationDetail.setMandatoryCell(excelCellName.mandatoryCell());
@@ -419,48 +336,23 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
             Integer column = findTitleColumn(excelCellName);
             annotationDetail.setColumn(column);
         }
-
         ExcelCellsJoinedByName excelCellsJoinedByName = field.getAnnotation(ExcelCellsJoinedByName.class);
         if (excelCellsJoinedByName != null) {
             String expression = excelCellsJoinedByName.expression();
             Pattern pattern = Pattern.compile(expression);
-
-            List<Integer> columns = indexToTitle.entrySet().stream()
-                    .filter(entry -> pattern.matcher(
-                                    entry.getValue().replaceAll("@[0-9]+", ""))
-                            .matches())
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toList());
-
+            List<Integer> columns = indexToTitle.entrySet().stream().filter(entry -> pattern.matcher(entry.getValue().replaceAll("@[0-9]+", "")).matches()).map(Map.Entry::getKey).collect(Collectors.toList());
             annotationDetail.setColumns(columns);
             annotationDetail.setMultiValueMap(CollectionUtils.isNotEmpty(columns));
         }
-
         return annotationDetail;
     }
 
     public Integer findTitleColumn(ExcelCellName excelCellName) {
-        if (!StringUtil.isBlank(excelCellName.value())) {
-            final String titleName = formatting.transform(options, excelCellName.value());
-            return titleToIndex.get(titleName);
-        }
-
-        if (!StringUtil.isBlank(excelCellName.expression())) {
-            final String titleName = formatting.transform(options, excelCellName.expression());
-            Pattern pattern = Pattern.compile(titleName);
-            return titleToIndex.entrySet().stream()
-                    .filter(entry -> pattern.matcher(entry.getKey()).matches())
-                    .findFirst()
-                    .map(Map.Entry::getValue)
-                    .orElse(null);
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private <T> void constructTypeValue(Row currentRow, T instance, Field field,
-                                        FieldAnnotationDetail annotationDetail) {
+    private <T> void constructTypeValue(Row currentRow, T instance, Field field, FieldAnnotationDetail annotationDetail) {
         Cell cell = currentRow.getCell(annotationDetail.getColumn());
-
         if (cell != null) {
             if (annotationDetail.isDisabledCellFormat()) {
                 cell.setCellStyle(null);
@@ -471,9 +363,7 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
             } else {
                 value = dataFormatter.formatCellValue(cell, baseFormulaEvaluator);
             }
-            Object data = casting.castValue(field, value, currentRow.getRowNum(), annotationDetail.getColumn(),
-                    options);
-
+            Object data = casting.castValue(field, value, currentRow.getRowNum(), annotationDetail.getColumn(), options);
             if (!annotationDetail.isMultiValueMap()) {
                 setFieldData(instance, field, data);
             } else {
@@ -483,9 +373,7 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
             }
         } else if (options.isProcessEmptyCell()) {
             // Process empty cells by setting them to empty string
-            Object data = casting.castValue(field, "", currentRow.getRowNum(), annotationDetail.getColumn(),
-                    options);
-
+            Object data = casting.castValue(field, "", currentRow.getRowNum(), annotationDetail.getColumn(), options);
             if (!annotationDetail.isMultiValueMap()) {
                 setFieldData(instance, field, data);
             } else {
@@ -494,15 +382,12 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
                 putFieldMultiValueMapData(instance, field, titleColumn, data);
             }
         } else if (annotationDetail.isMandatoryCell()) {
-            throw new PoijiRowSpecificException(annotationDetail.getColumnName(), field.getName(),
-                    currentRow.getRowNum());
+            throw new PoijiRowSpecificException(annotationDetail.getColumnName(), field.getName(), currentRow.getRowNum());
         }
     }
 
     private boolean isCellNumeric(Cell cell) {
-        return (cell.getCellType() == CellType.NUMERIC ||
-                (cell.getCellType() == CellType.FORMULA &&
-                        cell.getCachedFormulaResultType() == CellType.NUMERIC));
+        return (cell.getCellType() == CellType.NUMERIC || (cell.getCellType() == CellType.FORMULA && cell.getCachedFormulaResultType() == CellType.NUMERIC));
     }
 
     private <T> void setFieldData(T instance, Field field, Object data) {
@@ -515,40 +400,29 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
     }
 
     public void putFieldMultiValueMapData(Object instance, Field field, String columnName, Object o) {
-        try {
-            field.setAccessible(true);
-            MultiValuedMap<String, Object> multiValuedMap = (MultiValuedMap<String, Object>) field.get(instance);
-            multiValuedMap.put(columnName, o);
-        } catch (ClassCastException | IllegalAccessException e) {
-            throw new IllegalCastException("Unexpected cast type {" + o + "} of field" + field.getName());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private <T> T setFieldValuesFromRowIntoInstance(Row currentRow, Class<? super T> subclass, T instance) {
-        return subclass == null
-                ? instance
-                : tailSetFieldValue(currentRow, subclass,
-                setFieldValuesFromRowIntoInstance(currentRow, subclass.getSuperclass(), instance));
+        return subclass == null ? instance : tailSetFieldValue(currentRow, subclass, setFieldValuesFromRowIntoInstance(currentRow, subclass.getSuperclass(), instance));
     }
 
     boolean skip(final Row currentRow, int skip) {
-        return currentRow.getRowNum() + 1 <= skip;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     boolean isRowEmpty(Row row) {
-        for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
-            Cell cell = row.getCell(c, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-            if (cell != null && cell.getCellType() != CellType.BLANK) {
-                return false;
-            }
-        }
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static class FieldAnnotationDetail {
+
         private Integer column;
+
         private String columnName;
+
         private boolean disabledCellFormat;
+
         private boolean mandatoryCell;
 
         private List<Integer> columns;
@@ -556,52 +430,51 @@ abstract class HSSFUnmarshaller extends PoijiWorkBook implements Unmarshaller {
         private boolean multiValueMap;
 
         Integer getColumn() {
-            return column;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void setColumn(Integer column) {
-            this.column = column;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String getColumnName() {
-            return columnName;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setColumnName(String columnName) {
-            this.columnName = columnName;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         boolean isDisabledCellFormat() {
-            return disabledCellFormat;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         void setDisabledCellFormat(boolean disabledCellFormat) {
-            this.disabledCellFormat = disabledCellFormat;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public boolean isMandatoryCell() {
-            return mandatoryCell;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setMandatoryCell(boolean mandatoryCell) {
-            this.mandatoryCell = mandatoryCell;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public List<Integer> getColumns() {
-            return columns;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setColumns(List<Integer> columns) {
-            this.columns = columns;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public boolean isMultiValueMap() {
-            return multiValueMap;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public void setMultiValueMap(boolean multiValueMap) {
-            this.multiValueMap = multiValueMap;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

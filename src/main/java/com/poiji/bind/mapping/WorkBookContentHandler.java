@@ -4,7 +4,6 @@ import com.poiji.option.PoijiOptions;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,9 @@ import java.util.List;
 final class WorkBookContentHandler implements ContentHandler {
 
     private WorkBookSheet individualSheet;
+
     private final List<WorkBookSheet> sheets = new ArrayList<>();
+
     private final PoijiOptions options;
 
     WorkBookContentHandler(final PoijiOptions options) {
@@ -22,90 +23,61 @@ final class WorkBookContentHandler implements ContentHandler {
     }
 
     protected List<WorkBookSheet> getSheets() {
-        return sheets;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setDocumentLocator(Locator locator) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void startDocument() {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void endDocument() {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void startPrefixMapping(String prefix, String uri) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void endPrefixMapping(String prefix) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes atts) {
-
-        // there are multiple elements to an excel xml layout
-        // we only care about the sheet infor
-        if ("x:sheet".equals(qName) || "sheet".equals(qName)) {
-            individualSheet = new WorkBookSheet();
-
-            // loop throught all the attributes and add to the new sheet
-            for (int i = 0; i < atts.getLength(); i++) {
-                // examples
-                // Attribute: name:Sheet3
-                // Attribute: sheetId:3
-                // Attribute: state:hidden
-                if (atts.getQName(i).equals("state")) {
-                    String state = atts.getValue(i);
-                    if (!options.ignoreHiddenSheets()) {
-                        state = "visible";
-                    }
-                    individualSheet.setState(state);
-                }
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) {
-
-        // onces finished reading the element, if end of sheet, add to array of work
-        // books sheets so can loop them later
-        // set this sheet to null as its not needed any more
-        if ("x:sheet".equals(qName) || "sheet".equals(qName)) {
-            sheets.add(individualSheet);
-            individualSheet = null;
-        }
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void characters(char[] ch, int start, int length) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void ignorableWhitespace(char[] ch, int start, int length) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void processingInstruction(String target, String data) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void skippedEntity(String name) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -19,10 +19,6 @@ public class PoijiDataFormatter extends DataFormatter {
 
     @Override
     public String formatRawCellContents(double value, int formatIndex, String formatString, boolean use1904Windowing) {
-        if (!DateUtil.isADateFormat(formatIndex, formatString) && options.isRawData()) {
-            return NumberToTextConverter.toText(value);
-        } else {
-            return super.formatRawCellContents(value, formatIndex, formatString, use1904Windowing);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

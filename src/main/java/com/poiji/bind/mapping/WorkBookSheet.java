@@ -8,11 +8,10 @@ final class WorkBookSheet {
     private String state = "visible";
 
     public String getState() {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setState(String state) {
-        this.state = state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

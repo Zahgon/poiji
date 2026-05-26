@@ -12,9 +12,7 @@ import com.poiji.option.PoijiOptions;
 import com.poiji.option.PoijiOptions.PoijiOptionsBuilder;
 import com.poiji.util.Files;
 import org.apache.poi.ss.usermodel.Sheet;
-
 import com.poiji.util.PoijiExecutors;
-
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
-
 import static com.poiji.util.PoijiConstants.XLSX_EXTENSION;
 import static com.poiji.util.PoijiConstants.XLS_EXTENSION;
 
@@ -31,7 +28,7 @@ import static com.poiji.util.PoijiConstants.XLS_EXTENSION;
  * The entry point of the mapping process.
  * <p>
  * Example:
- * 
+ *
  * <pre>
  * List employees = Poiji.fromExcel(new File("employees.xls"), Employee.class);
  * employees.size();
@@ -67,7 +64,7 @@ public final class Poiji {
      * @see Poiji#fromExcelProperties(File, Class, PoijiOptions)
      */
     public static <T> T fromExcelProperties(final File file, final Class<T> type) {
-        return fromExcelProperties(file, type, PoijiOptionsBuilder.settings().build());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,10 +85,8 @@ public final class Poiji {
      * @see Poiji#fromExcelProperties(InputStream, PoijiExcelType, Class,
      *      PoijiOptions)
      */
-    public static <T> T fromExcelProperties(final InputStream inputStream,
-            PoijiExcelType excelType,
-            final Class<T> type) {
-        return fromExcelProperties(inputStream, excelType, type, PoijiOptionsBuilder.settings().build());
+    public static <T> T fromExcelProperties(final InputStream inputStream, PoijiExcelType excelType, final Class<T> type) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -113,8 +108,7 @@ public final class Poiji {
      * @see Poiji#fromExcelProperties(File, Class)
      */
     public static <T> T fromExcelProperties(final File file, final Class<T> type, final PoijiOptions options) {
-        HSSFPropertyFile hssfPropertyFile = deserializerPropertyFile(file, options);
-        return hssfPropertyFile.unmarshal(type);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static HSSFPropertyFile deserializerPropertyFile(final File file, PoijiOptions options) {
@@ -128,8 +122,7 @@ public final class Poiji {
         }
     }
 
-    private static HSSFPropertyStream deserializerPropertyStream(PoijiExcelType excelType, InputStream inputStream,
-            PoijiOptions options) {
+    private static HSSFPropertyStream deserializerPropertyStream(PoijiExcelType excelType, InputStream inputStream, PoijiOptions options) {
         if (excelType == PoijiExcelType.XLSX) {
             return PoijiPropertyHelper.createPoijiPropertyStream(inputStream, options);
         } else {
@@ -156,13 +149,8 @@ public final class Poiji {
      *                                   field is either inaccessible or final.
      * @see Poiji#fromExcelProperties(InputStream, PoijiExcelType, Class)
      */
-    public static <T> T fromExcelProperties(final InputStream inputStream,
-            PoijiExcelType excelType,
-            final Class<T> type,
-            PoijiOptions options) {
-        Objects.requireNonNull(excelType);
-        HSSFPropertyStream hssfPropertyStream = deserializerPropertyStream(excelType, inputStream, options);
-        return hssfPropertyStream.unmarshal(type);
+    public static <T> T fromExcelProperties(final InputStream inputStream, PoijiExcelType excelType, final Class<T> type, PoijiOptions options) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -182,9 +170,7 @@ public final class Poiji {
      * @see Poiji#fromExcel(File, Class, PoijiOptions)
      */
     public static <T> List<T> fromExcel(final File file, final Class<T> type) {
-        final ArrayList<T> list = new ArrayList<>();
-        fromExcel(file, type, list::add);
-        return list;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -205,8 +191,7 @@ public final class Poiji {
      * @see Poiji#fromExcel(File, Class, PoijiOptions)
      */
     public static <T> void fromExcel(final File file, final Class<T> type, final Consumer<? super T> consumer) {
-        final Unmarshaller unmarshaller = deserializer(file, PoijiOptionsBuilder.settings().build());
-        unmarshaller.unmarshal(type, consumer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -226,12 +211,8 @@ public final class Poiji {
      *                                   field is either inaccessible or final.
      * @see Poiji#fromExcel(InputStream, PoijiExcelType, Class, PoijiOptions)
      */
-    public static <T> List<T> fromExcel(final InputStream inputStream,
-            PoijiExcelType excelType,
-            final Class<T> type) {
-        final ArrayList<T> list = new ArrayList<>();
-        fromExcel(inputStream, excelType, type, list::add);
-        return list;
+    public static <T> List<T> fromExcel(final InputStream inputStream, PoijiExcelType excelType, final Class<T> type) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -251,14 +232,8 @@ public final class Poiji {
      *                                   field is either inaccessible or final.
      * @see Poiji#fromExcel(File, Class, PoijiOptions)
      */
-    public static <T> void fromExcel(final InputStream inputStream,
-            PoijiExcelType excelType,
-            final Class<T> type,
-            final Consumer<? super T> consumer) {
-        Objects.requireNonNull(excelType);
-
-        final Unmarshaller unmarshaller = deserializer(inputStream, excelType, PoijiOptionsBuilder.settings().build());
-        unmarshaller.unmarshal(type, consumer);
+    public static <T> void fromExcel(final InputStream inputStream, PoijiExcelType excelType, final Class<T> type, final Consumer<? super T> consumer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -279,9 +254,7 @@ public final class Poiji {
      * @see Poiji#fromExcel(File, Class)
      */
     public static <T> List<T> fromExcel(final File file, final Class<T> type, final PoijiOptions options) {
-        final ArrayList<T> list = new ArrayList<>();
-        fromExcel(file, type, options, list::add);
-        return list;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -301,10 +274,8 @@ public final class Poiji {
      *                                   field is either inaccessible or final.
      * @see Poiji#fromExcel(File, Class)
      */
-    public static <T> void fromExcel(final File file, final Class<T> type, final PoijiOptions options,
-            final Consumer<? super T> consumer) {
-        final Unmarshaller unmarshaller = deserializer(file, options);
-        unmarshaller.unmarshal(type, consumer);
+    public static <T> void fromExcel(final File file, final Class<T> type, final PoijiOptions options, final Consumer<? super T> consumer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -325,14 +296,8 @@ public final class Poiji {
      *                                   field is either inaccessible or final.
      * @see Poiji#fromExcel(InputStream, PoijiExcelType, Class)
      */
-    public static <T> List<T> fromExcel(final InputStream inputStream,
-            final PoijiExcelType excelType,
-            final Class<T> type,
-            final PoijiOptions options) {
-        Objects.requireNonNull(excelType);
-        final ArrayList<T> list = new ArrayList<>();
-        fromExcel(inputStream, excelType, type, options, list::add);
-        return list;
+    public static <T> List<T> fromExcel(final InputStream inputStream, final PoijiExcelType excelType, final Class<T> type, final PoijiOptions options) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -353,15 +318,8 @@ public final class Poiji {
      *                                   field is either inaccessible or final.
      * @see Poiji#fromExcel(File, Class)
      */
-    public static <T> void fromExcel(final InputStream inputStream,
-            final PoijiExcelType excelType,
-            final Class<T> type,
-            final PoijiOptions options,
-            final Consumer<? super T> consumer) {
-        Objects.requireNonNull(excelType);
-
-        final Unmarshaller unmarshaller = deserializer(inputStream, excelType, options);
-        unmarshaller.unmarshal(type, consumer);
+    public static <T> void fromExcel(final InputStream inputStream, final PoijiExcelType excelType, final Class<T> type, final PoijiOptions options, final Consumer<? super T> consumer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -378,13 +336,8 @@ public final class Poiji {
      * @see Poiji#fromExcel(Sheet, Class, PoijiOptions, Consumer)
      * @see Poiji#fromExcel(Sheet, Class)
      */
-    public static <T> List<T> fromExcel(final Sheet sheet,
-            final Class<T> type,
-            final PoijiOptions options) {
-        Objects.requireNonNull(sheet);
-        final ArrayList<T> list = new ArrayList<>();
-        fromExcel(sheet, type, options, list::add);
-        return list;
+    public static <T> List<T> fromExcel(final Sheet sheet, final Class<T> type, final PoijiOptions options) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -400,12 +353,8 @@ public final class Poiji {
      * @see Poiji#fromExcel(Sheet, Class, PoijiOptions)
      * @see Poiji#fromExcel(Sheet, Class, PoijiOptions, Consumer)
      */
-    public static <T> List<T> fromExcel(final Sheet sheet,
-            final Class<T> type) {
-        Objects.requireNonNull(sheet);
-        final ArrayList<T> list = new ArrayList<>();
-        fromExcel(sheet, type, PoijiOptionsBuilder.settings().build(), list::add);
-        return list;
+    public static <T> List<T> fromExcel(final Sheet sheet, final Class<T> type) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -422,13 +371,8 @@ public final class Poiji {
      * @see Poiji#fromExcel(Sheet, Class, PoijiOptions)
      * @see Poiji#fromExcel(Sheet, Class)
      */
-    public static <T> void fromExcel(final Sheet sheet,
-            final Class<T> type,
-            final PoijiOptions options,
-            final Consumer<? super T> consumer) {
-        Objects.requireNonNull(sheet);
-        final Unmarshaller unmarshaller = UnmarshallerHelper.sheetInstance(sheet, options);
-        unmarshaller.unmarshal(type, consumer);
+    public static <T> void fromExcel(final Sheet sheet, final Class<T> type, final PoijiOptions options, final Consumer<? super T> consumer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -441,13 +385,8 @@ public final class Poiji {
      * @param options specifies to change the default behaviour of the poiji.
      * @return a CompletableFuture that completes with the list of deserialized objects
      */
-    public static <T> CompletableFuture<List<T>> fromExcelAsync(final File file,
-            final Class<T> type,
-            final PoijiOptions options) {
-        ExecutorService executor = PoijiExecutors.newExecutor();
-        return CompletableFuture
-                .supplyAsync(() -> fromExcel(file, type, options), executor)
-                .whenComplete((result, ex) -> executor.shutdown());
+    public static <T> CompletableFuture<List<T>> fromExcelAsync(final File file, final Class<T> type, final PoijiOptions options) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -460,14 +399,12 @@ public final class Poiji {
      * @return a CompletableFuture that completes with the list of deserialized objects
      */
     public static <T> CompletableFuture<List<T>> fromExcelAsync(final File file, final Class<T> type) {
-        return fromExcelAsync(file, type, PoijiOptionsBuilder.settings().build());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Unmarshaller deserializer(final File file, final PoijiOptions options) {
         final PoijiFile<?> poijiFile = new PoijiFile<>(file);
-
         String extension = files.getExtension(file.getName());
-
         if (XLS_EXTENSION.equals(extension)) {
             return UnmarshallerHelper.hssfInstance(poijiFile, options);
         } else if (XLSX_EXTENSION.equals(extension)) {
@@ -481,15 +418,12 @@ public final class Poiji {
         }
     }
 
-    private static Unmarshaller deserializer(final InputStream inputStream, PoijiExcelType excelType,
-            final PoijiOptions options) {
+    private static Unmarshaller deserializer(final InputStream inputStream, PoijiExcelType excelType, final PoijiOptions options) {
         final PoijiInputStream<?> poijiInputStream = new PoijiInputStream<>(inputStream);
-
         if (excelType == PoijiExcelType.XLS) {
             return UnmarshallerHelper.hssfInstance(poijiInputStream, options);
         } else {
             return UnmarshallerHelper.xssfInstance(poijiInputStream, options);
         }
     }
-
 }

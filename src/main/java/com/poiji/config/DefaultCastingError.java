@@ -1,6 +1,7 @@
 package com.poiji.config;
 
 public final class DefaultCastingError {
+
     private String value;
 
     private Object defaultValue;
@@ -23,26 +24,26 @@ public final class DefaultCastingError {
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Object getDefaultValue() {
-        return defaultValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getSheetName() {
-        return sheetName;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getRow() {
-        return row;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getColumn() {
-        return column;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Exception getException() {
-        return exception;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

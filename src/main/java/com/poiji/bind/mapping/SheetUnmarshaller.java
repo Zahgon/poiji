@@ -8,7 +8,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -26,25 +25,16 @@ public final class SheetUnmarshaller extends HSSFUnmarshaller {
 
     @Override
     public <T> void unmarshal(Class<T> type, Consumer<? super T> consumer) {
-
-        Workbook workbook = workbook();
-        if (workbook instanceof HSSFWorkbook) {
-            baseFormulaEvaluator = HSSFFormulaEvaluator.create((HSSFWorkbook) workbook, null, null);
-        } else if (workbook instanceof XSSFWorkbook) {
-            baseFormulaEvaluator = XSSFFormulaEvaluator.create((XSSFWorkbook) workbook, null, null);
-        } else {
-            throw new PoijiException("Workbook is not supported.");
-        }
-        processRowsToObjects(sheet, type, consumer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> Optional<String> getSheetName(Class<T> type, PoijiOptions options) {
-        return Optional.empty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected Workbook workbook() {
-        return sheet.getWorkbook();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

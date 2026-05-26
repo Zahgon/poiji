@@ -8,7 +8,6 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -27,36 +26,16 @@ final class XSSFUnmarshallerFile extends XSSFUnmarshaller {
 
     @Override
     public <T> void unmarshal(Class<T> type, Consumer<? super T> consumer) {
-
-        if (options.getPassword() != null) {
-            returnFromEncryptedFile(type, consumer);
-            return;
-        }
-        returnFromExcelFile(type, consumer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> void returnFromExcelFile(Class<T> type, Consumer<? super T> consumer) {
-
-        try (OPCPackage open = OPCPackage.open(poijiFile.file(), PackageAccess.READ)) {
-
-            unmarshal0(type, consumer, open);
-
-        } catch (ParserConfigurationException | SAXException | IOException | OpenXML4JException e) {
-            throw new PoijiException("Problem occurred while reading data", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> void returnFromEncryptedFile(Class<T> type, Consumer<? super T> consumer) {
-
-        try (POIFSFileSystem fs = new POIFSFileSystem(poijiFile.file(), true)) {
-
-            listOfEncryptedItems(type, consumer, fs);
-
-        } catch (IOException e) {
-            throw new PoijiException("Problem occurred while reading data", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

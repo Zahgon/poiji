@@ -9,6 +9,6 @@ public final class PoijiExecutors {
     }
 
     public static ExecutorService newExecutor() {
-        return Executors.newCachedThreadPool();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

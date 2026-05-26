@@ -17,7 +17,6 @@ import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.util.StringUtil;
 import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler.SheetContentsHandler;
 import org.apache.poi.xssf.usermodel.XSSFComment;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +25,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
 import static java.lang.String.valueOf;
 
 /**
@@ -36,26 +34,45 @@ import static java.lang.String.valueOf;
  * Created by hakan on 22/10/2017
  */
 final class PoijiHandler<T> implements SheetContentsHandler {
+
     private T instance;
+
     private final Consumer<? super T> consumer;
+
     private int internalRow;
+
     private int internalCount;
+
     private final int limit;
+
     private final Class<T> type;
+
     private final PoijiOptions options;
+
     private final Casting casting;
+
     private final Formatting formatting;
+
     private final Map<String, Integer> titleToIndex;
+
     private final Map<Integer, String> indexToTitle;
+
     // New maps used to speed up computing and handle inner objects
     private Map<String, Object> fieldInstances;
+
     private final Map<Integer, Field> columnToField;
+
     private final Map<Integer, Field> columnToSuperClassField;
+
     private final Set<ExcelCellName> excelCellNameAnnotations;
+
     // Record support
     private final boolean isRecord;
+
     private Map<String, Object> recordValues;
+
     private final Set<Integer> processedColumns;
+
     private int maxColumnIndex;
 
     PoijiHandler(Class<T> type, PoijiOptions options, Consumer<? super T> consumer) {
@@ -85,7 +102,7 @@ final class PoijiHandler<T> implements SheetContentsHandler {
 
     /**
      * Using this to hold inner objects that will be mapped to the main object
-     **/
+     */
     private Object getInstance(Field field) {
         Object ins;
         if (isRecord) {
@@ -109,75 +126,70 @@ final class PoijiHandler<T> implements SheetContentsHandler {
 
     @SuppressWarnings("unchecked")
     private boolean setValue(String content, Class<? super T> type, int column) {
-        Stream.of(type.getDeclaredFields())
-                .filter(field -> field.getAnnotation(ExcelUnknownCells.class) == null)
-                .forEach(field -> {
-                    ExcelRow excelRow = field.getAnnotation(ExcelRow.class);
-                    if (excelRow != null) {
-                        Object o = casting.castValue(field, valueOf(internalRow), internalRow, column, options);
+        Stream.of(type.getDeclaredFields()).filter(field -> field.getAnnotation(ExcelUnknownCells.class) == null).forEach(field -> {
+            ExcelRow excelRow = field.getAnnotation(ExcelRow.class);
+            if (excelRow != null) {
+                Object o = casting.castValue(field, valueOf(internalRow), internalRow, column, options);
+                if (isRecord) {
+                    recordValues.put(field.getName(), o);
+                } else {
+                    ReflectUtil.setFieldData(field, o, instance);
+                }
+                columnToField.put(-1, field);
+            }
+            ExcelCellRange range = field.getAnnotation(ExcelCellRange.class);
+            if (range != null) {
+                Object ins;
+                ins = getInstance(field);
+                for (Field f : field.getType().getDeclaredFields()) {
+                    if (setValue(f, column, content, ins)) {
                         if (isRecord) {
-                            recordValues.put(field.getName(), o);
+                            recordValues.put(field.getName(), ins);
                         } else {
-                            ReflectUtil.setFieldData(field, o, instance);
+                            ReflectUtil.setFieldData(field, ins, instance);
                         }
-                        columnToField.put(-1, field);
+                        columnToField.put(column, f);
+                        columnToSuperClassField.put(column, field);
                     }
-                    ExcelCellRange range = field.getAnnotation(ExcelCellRange.class);
-                    if (range != null) {
-                        Object ins;
-                        ins = getInstance(field);
-                        for (Field f : field.getType().getDeclaredFields()) {
-                            if (setValue(f, column, content, ins)) {
-                                if (isRecord) {
-                                    recordValues.put(field.getName(), ins);
-                                } else {
-                                    ReflectUtil.setFieldData(field, ins, instance);
-                                }
-                                columnToField.put(column, f);
-                                columnToSuperClassField.put(column, field);
-                            }
+                }
+            } else {
+                if (setValue(field, column, content, isRecord ? null : instance)) {
+                    columnToField.put(column, field);
+                }
+            }
+        });
+        Stream.of(type.getDeclaredFields()).filter(field -> field.getAnnotation(ExcelUnknownCells.class) != null).forEach(field -> {
+            if (!columnToField.containsKey(column)) {
+                try {
+                    Map<String, String> excelUnknownCellsMap;
+                    if (isRecord) {
+                        // For records, we need to get or create the map from recordValues
+                        if (recordValues.containsKey(field.getName())) {
+                            excelUnknownCellsMap = (Map<String, String>) recordValues.get(field.getName());
+                        } else {
+                            excelUnknownCellsMap = new HashMap<>();
+                            recordValues.put(field.getName(), excelUnknownCellsMap);
                         }
                     } else {
-                        if (setValue(field, column, content, isRecord ? null : instance)) {
-                            columnToField.put(column, field);
+                        field.setAccessible(true);
+                        if (field.get(instance) == null) {
+                            excelUnknownCellsMap = new HashMap<>();
+                            ReflectUtil.setFieldData(field, excelUnknownCellsMap, instance);
+                        } else {
+                            excelUnknownCellsMap = (Map<String, String>) field.get(instance);
                         }
                     }
-                });
-        Stream.of(type.getDeclaredFields())
-                .filter(field -> field.getAnnotation(ExcelUnknownCells.class) != null)
-                .forEach(field -> {
-                    if (!columnToField.containsKey(column)) {
-                        try {
-                            Map<String, String> excelUnknownCellsMap;
-                            if (isRecord) {
-                                // For records, we need to get or create the map from recordValues
-                                if (recordValues.containsKey(field.getName())) {
-                                    excelUnknownCellsMap = (Map<String, String>) recordValues.get(field.getName());
-                                } else {
-                                    excelUnknownCellsMap = new HashMap<>();
-                                    recordValues.put(field.getName(), excelUnknownCellsMap);
-                                }
-                            } else {
-                                field.setAccessible(true);
-                                if (field.get(instance) == null) {
-                                    excelUnknownCellsMap = new HashMap<>();
-                                    ReflectUtil.setFieldData(field, excelUnknownCellsMap, instance);
-                                } else {
-                                    excelUnknownCellsMap = (Map<String, String>) field.get(instance);
-                                }
-                            }
-                            String index = indexToTitle.get(column);
-                            if (index == null) {
-                                excelUnknownCellsMap.put(valueOf(column), content);
-                            } else {
-                                excelUnknownCellsMap.put(indexToTitle.get(column), content);
-                            }
-                        } catch (IllegalAccessException e) {
-                            throw new IllegalCastException("Could not read content of field " + field.getName()
-                                    + " on Object {" + instance + "}");
-                        }
+                    String index = indexToTitle.get(column);
+                    if (index == null) {
+                        excelUnknownCellsMap.put(valueOf(column), content);
+                    } else {
+                        excelUnknownCellsMap.put(indexToTitle.get(column), content);
                     }
-                });
+                } catch (IllegalAccessException e) {
+                    throw new IllegalCastException("Could not read content of field " + field.getName() + " on Object {" + instance + "}");
+                }
+            }
+        });
         // For ExcelRow annotation
         if (columnToField.containsKey(-1)) {
             Field field = columnToField.get(-1);
@@ -217,7 +229,6 @@ final class PoijiHandler<T> implements SheetContentsHandler {
 
     private boolean setValue(Field field, int column, String content, Object ins) {
         ExcelCell index = field.getAnnotation(ExcelCell.class);
-
         if (index != null) {
             if (column == index.value()) {
                 Object o = casting.castValue(field, content, internalRow, column, options);
@@ -225,7 +236,6 @@ final class PoijiHandler<T> implements SheetContentsHandler {
                 return true;
             }
         }
-
         ExcelCellName excelCellName = field.getAnnotation(ExcelCellName.class);
         if (excelCellName != null) {
             excelCellNameAnnotations.add(excelCellName);
@@ -237,14 +247,11 @@ final class PoijiHandler<T> implements SheetContentsHandler {
                 return true;
             }
         }
-
         ExcelCellsJoinedByName excelCellsJoinedByName = field.getAnnotation(ExcelCellsJoinedByName.class);
         if (excelCellsJoinedByName != null) {
             String titleColumn = indexToTitle.get(column);
-
-            if(titleColumn!=null) {
+            if (titleColumn != null) {
                 titleColumn = titleColumn.replaceAll("@[0-9]+", "");
-
                 String expression = excelCellsJoinedByName.expression();
                 Pattern pattern = Pattern.compile(expression);
                 if (pattern.matcher(titleColumn).matches()) {
@@ -259,105 +266,30 @@ final class PoijiHandler<T> implements SheetContentsHandler {
                 }
             }
         }
-
         return false;
     }
 
     public Integer findTitleColumn(ExcelCellName excelCellName) {
-        if (!StringUtil.isBlank(excelCellName.value())) {
-            final String titleName = formatting.transform(options, excelCellName.value());
-            return titleToIndex.get(titleName);
-        }
-
-        if (!StringUtil.isBlank(excelCellName.expression())) {
-            final String titleName = formatting.transform(options, excelCellName.expression());
-            Pattern pattern = Pattern.compile(titleName);
-            return titleToIndex.entrySet().stream()
-                    .filter(entry -> pattern.matcher(entry.getKey()).matches())
-                    .findFirst()
-                    .map(Map.Entry::getValue)
-                    .orElse(null);
-        }
-
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void startRow(int rowNum) {
-        if (rowNum + 1 > options.skip()) {
-            internalCount += 1;
-            maxColumnIndex = -1;
-            processedColumns.clear();
-            if (isRecord) {
-                recordValues = new HashMap<>();
-            } else {
-                instance = ReflectUtil.newInstanceOf(type);
-                fieldInstances = new HashMap<>();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void endRow(int rowNum) {
-        if (rowNum + 1 <= options.skip())
-            return;
-
-        boolean processEmptyCell = options.isProcessEmptyCell();
-
-        if (maxColumnIndex < 0 && !processEmptyCell)
-            return;
-
-        if (processEmptyCell) {
-            // Find the maximum column index from headers to ensure we process all defined columns
-            int maxHeaderColumn = indexToTitle.keySet().stream()
-                    .max(Integer::compareTo)
-                    .orElse(maxColumnIndex);
-            int endColumn = Math.max(maxColumnIndex, maxHeaderColumn);
-
-            for (int col = 0; col <= endColumn; col++) {
-                if (!processedColumns.contains(col)) {
-                    setFieldValue("", type, col);
-                }
-            }
-        }
-
-        if (isRecord) {
-            instance = ReflectUtil.newRecordInstance(type, recordValues);
-        }
-        consumer.accept(instance);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void cell(String cellReference, String formattedValue, XSSFComment comment) {
-        if (cellReference == null) {
-            // TODO hidden log required; a cell reference could return null
-            return;
-        }
-        final CellAddress cellAddress = new CellAddress(cellReference);
-        int row = cellAddress.getRow();
-        int headerStart = options.getHeaderStart();
-        int headerCount = options.getHeaderCount();
-        int column = cellAddress.getColumn();
-        if (row >= headerStart && row < headerStart + headerCount) {
-            String transformedValue = formatting.transform(options, formattedValue);
-            titleToIndex.put(transformedValue, column);
-            indexToTitle.put(column, getTitleNameForMap(transformedValue, column));
-        }
-        if (row + 1 <= options.skip()) {
-            return;
-        }
-        if (limit != 0 && internalCount > limit) {
-            return;
-        }
-        internalRow = row;
-        maxColumnIndex = Math.max(maxColumnIndex, column);
-        processedColumns.add(column);
-        setFieldValue(formattedValue, type, column);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String getTitleNameForMap(String cellContent, int columnIndex) {
-        if (indexToTitle.containsValue(cellContent)
-                || cellContent.isEmpty()) {
+        if (indexToTitle.containsValue(cellContent) || cellContent.isEmpty()) {
             return cellContent + "@" + columnIndex;
         } else {
             return cellContent;
@@ -366,11 +298,11 @@ final class PoijiHandler<T> implements SheetContentsHandler {
 
     @Override
     public void headerFooter(String text, boolean isHeader, String tagName) {
-        // no-op
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void endSheet() {
-        AnnotationUtil.validateMandatoryNameColumns(options, formatting, type, titleToIndex, indexToTitle);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

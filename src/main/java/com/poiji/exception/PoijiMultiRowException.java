@@ -19,33 +19,34 @@ public class PoijiMultiRowException extends PoijiException {
     }
 
     public List<PoijiRowSpecificException> getErrors() {
-        return errors;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class PoijiRowSpecificException extends RuntimeException {
 
         private final String columnName;
+
         private final String fieldName;
+
         private final Integer rowNum;
 
         public PoijiRowSpecificException(String columnName, String fieldName, Integer rowNum) {
-            super("Cell value of column '" + columnName + "' is null,"
-                    + " so cannot be applied to mandatory field '" + fieldName + "'. ;Row " + rowNum);
+            super("Cell value of column '" + columnName + "' is null," + " so cannot be applied to mandatory field '" + fieldName + "'. ;Row " + rowNum);
             this.columnName = columnName;
             this.fieldName = fieldName;
             this.rowNum = rowNum;
         }
 
         public String getColumnName() {
-            return columnName;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public String getFieldName() {
-            return fieldName;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Integer getRowNum() {
-            return rowNum;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

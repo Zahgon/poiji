@@ -10,7 +10,6 @@ import org.apache.poi.poifs.filesystem.DocumentFactoryHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +20,7 @@ import java.io.InputStream;
 public final class HSSFPropertyFile implements PropertyUnmarshaller {
 
     private File file;
+
     private PoijiOptions options;
 
     HSSFPropertyFile(File file, PoijiOptions options) {
@@ -30,41 +30,16 @@ public final class HSSFPropertyFile implements PropertyUnmarshaller {
 
     @Override
     public <T> T unmarshal(Class<T> type) {
-        if (options.getPassword() != null) {
-            return returnFromEncryptedFile(type);
-        }
-        return returnFromExcelFile(type);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> T returnFromExcelFile(Class<T> type) {
-        try (OPCPackage open = OPCPackage.open(file, PackageAccess.READ)) {
-            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(open);
-            PropertyHandler propertyHandler = new PropertyHandler();
-            T ret = propertyHandler.unmarshal(type, xssfWorkbook.getProperties());
-            xssfWorkbook.close();
-            return ret;
-        } catch (IOException | OpenXML4JException e) {
-            throw new PoijiException("Problem occurred while reading data", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public <T> T returnFromEncryptedFile(Class<T> type) {
-        try (POIFSFileSystem fs = new POIFSFileSystem(file, true)) {
-            InputStream stream = DocumentFactoryHelper.getDecryptedStream(fs, options.getPassword());
-            try (OPCPackage open = OPCPackage.open(stream)) {
-                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(open);
-                PropertyHandler propertyHandler = new PropertyHandler();
-                T ret =  propertyHandler.unmarshal(type, xssfWorkbook.getProperties());
-                xssfWorkbook.close();
-                return ret;
-            } catch (IOException | OpenXML4JException e) {
-                IOUtils.closeQuietly(fs);
-                throw new PoijiException("Problem occurred while reading data", e);
-            }
-        } catch (IOException e) {
-            throw new PoijiException("Problem occurred while reading data", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

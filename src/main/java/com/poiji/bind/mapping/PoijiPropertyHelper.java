@@ -1,7 +1,6 @@
 package com.poiji.bind.mapping;
 
 import com.poiji.option.PoijiOptions;
-
 import java.io.File;
 import java.io.InputStream;
 
@@ -11,10 +10,10 @@ import java.io.InputStream;
 public final class PoijiPropertyHelper {
 
     public static HSSFPropertyFile createPoijiPropertyFile(File file, PoijiOptions options) {
-        return new HSSFPropertyFile(file, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static HSSFPropertyStream createPoijiPropertyStream(InputStream inputStream, PoijiOptions options) {
-        return new HSSFPropertyStream(inputStream, options);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

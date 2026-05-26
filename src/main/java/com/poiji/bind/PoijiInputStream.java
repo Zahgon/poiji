@@ -18,6 +18,6 @@ public final class PoijiInputStream<T extends InputStream> {
      * @return T
      */
     public T stream() {
-        return t;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -20,6 +20,6 @@ public class BigDecimalParser implements Parser<BigDecimal> {
 
     @Override
     public BigDecimal parse(String value) {
-        return (BigDecimal) delegate.parse(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

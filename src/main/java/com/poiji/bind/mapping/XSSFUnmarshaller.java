@@ -17,7 +17,6 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,81 +35,16 @@ abstract class XSSFUnmarshaller implements Unmarshaller {
         this.options = options;
     }
 
-    protected <T> void unmarshal0(Class<T> type, Consumer<? super T> consumer, OPCPackage open)
-            throws ParserConfigurationException, IOException, SAXException, OpenXML4JException {
-
-        ReadOnlySharedStringsTable readOnlySharedStringsTable = new ReadOnlySharedStringsTable(open);
-        XSSFReader workbookReader = new XSSFReader(open);
-        StylesTable styles = workbookReader.getStylesTable();
-
-        PoijiNumberFormat poijiNumberFormat = options.getPoijiNumberFormat();
-        if (poijiNumberFormat != null) {
-            poijiNumberFormat.overrideExcelNumberFormats(styles);
-        }
-
-        XMLReader reader = XMLHelper.newXMLReader();
-        InputSource is = new InputSource(workbookReader.getWorkbookData());
-
-        reader.setContentHandler(new WorkBookContentHandler(options));
-        reader.parse(is);
-
-        WorkBookContentHandler wbch = (WorkBookContentHandler) reader.getContentHandler();
-        List<WorkBookSheet> sheets = wbch.getSheets();
-        SheetIterator iter = (SheetIterator) workbookReader.getSheetsData();
-        int sheetCounter = 0;
-
-        Optional<String> maybeSheetName = this.getSheetName(type, options);
-
-        if (!maybeSheetName.isPresent()) {
-            int requestedIndex = options.sheetIndex();
-            int nonHiddenSheetIndex = 0;
-            while (iter.hasNext()) {
-                try (InputStream stream = iter.next()) {
-                    WorkBookSheet wbs = sheets.get(sheetCounter);
-                    if (wbs.getState().equals("visible")) {
-                        if (nonHiddenSheetIndex == requestedIndex) {
-                            processSheet(styles, reader, readOnlySharedStringsTable, type, stream, consumer);
-                            return;
-                        }
-                        nonHiddenSheetIndex++;
-                    }
-                }
-                sheetCounter++;
-            }
-        } else {
-            String sheetName = maybeSheetName.get();
-            while (iter.hasNext()) {
-                try (InputStream stream = iter.next()) {
-                    WorkBookSheet wbs = sheets.get(sheetCounter);
-                    if (wbs.getState().equals("visible") && iter.getSheetName().equalsIgnoreCase(sheetName)) {
-                        processSheet(styles, reader, readOnlySharedStringsTable, type, stream, consumer);
-                        return;
-                    }
-                }
-                sheetCounter++;
-            }
-        }
+    protected <T> void unmarshal0(Class<T> type, Consumer<? super T> consumer, OPCPackage open) throws ParserConfigurationException, IOException, SAXException, OpenXML4JException {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    private <T> void processSheet(StylesTable styles,
-                                  XMLReader reader,
-                                  ReadOnlySharedStringsTable readOnlySharedStringsTable,
-                                  Class<T> type,
-                                  InputStream sheetInputStream,
-                                  Consumer<? super T> consumer) {
-
+    private <T> void processSheet(StylesTable styles, XMLReader reader, ReadOnlySharedStringsTable readOnlySharedStringsTable, Class<T> type, InputStream sheetInputStream, Consumer<? super T> consumer) {
         PoijiDataFormatter formatter = new PoijiDataFormatter(options);
         InputSource sheetSource = new InputSource(sheetInputStream);
         try {
             PoijiHandler<T> poijiHandler = new PoijiHandler<>(type, options, consumer);
-            ContentHandler contentHandler
-                    = new XSSFSheetXMLPoijiHandler(styles,
-                    null,
-                    readOnlySharedStringsTable,
-                    poijiHandler,
-                    formatter,
-                    false,
-                    options);
+            ContentHandler contentHandler = new XSSFSheetXMLPoijiHandler(styles, null, readOnlySharedStringsTable, poijiHandler, formatter, false, options);
             reader.setContentHandler(contentHandler);
             reader.parse(sheetSource);
         } catch (SAXException | IOException e) {
@@ -120,15 +54,7 @@ abstract class XSSFUnmarshaller implements Unmarshaller {
     }
 
     <T> void listOfEncryptedItems(Class<T> type, Consumer<? super T> consumer, POIFSFileSystem fs) throws IOException {
-        InputStream stream = DocumentFactoryHelper.getDecryptedStream(fs, options.getPassword());
-
-        try (OPCPackage open = OPCPackage.open(stream)) {
-            unmarshal0(type, consumer, open);
-
-        } catch (ParserConfigurationException | SAXException | IOException | OpenXML4JException e) {
-            IOUtils.closeQuietly(fs);
-            throw new PoijiException("Problem occurred while reading data", e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     protected abstract <T> void returnFromExcelFile(Class<T> type, Consumer<? super T> consumer);
